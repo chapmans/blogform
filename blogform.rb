@@ -43,23 +43,20 @@ set :username, 'username'
 set :password, 'password'
 set :token, 'f4rB3Nl0v#)hLO^3tEX75+@r'
 
-# Partial
-helpers do
-  def partial(page, options={})
-    haml page, options.merge!(:layout => false)
-  end
-end
-
 
 # Routes!
 
 get '/' do
-  @posts = Post.all(:order => [ :id.desc ], :limit => 20)
+  @posts = Post.all(:status => 1, :order => [ :id.desc ], :limit => 20)
   haml :index
 end
 
 get '/movement' do
-  haml :admin
+  if request.cookies[settings.username] == settings.token
+    redirect '/movement/'
+  else 
+    haml :admin
+  end
 end
 
 post '/movement' do
@@ -79,7 +76,7 @@ end
 get '/movement/*' do
   # authenticate
   pass unless request.cookies[settings.username] != settings.token
-    halt [401, 'Not Authorized']
+  redirect '/movement'
 end
 
 get '/movement/post' do
@@ -87,15 +84,25 @@ get '/movement/post' do
 end
 
 post '/movement/post' do
-  post = Post.create(:title => title, :body => body, 
+  status = if params['status'] == "Submit" then 1
+           elsif params['status'] == "Save" then 2
+           else 0 end
+  post = Post.create(:title => params['title'], :body => params['body'], 
                      :date => Time.now, :status => status)
+  
+  redirect '/movement/post/:post-id'
+  # haml :adminpost
+end
+
+get '/movement/post/:id' do
+  post = Post.get(:id)
   haml :adminpost
 end
 
 put '/movement/post/:id' do
   post = Post.get(:id)
-  post.update(:title => title, :body => body, 
-                     :date => Time.now, :status => status)
+  post.update(:title => params['title'], :body => params['body'], 
+                     :date => Time.now, :status => params['status'])
   haml :adminpost
 end
 

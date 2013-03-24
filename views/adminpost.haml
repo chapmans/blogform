@@ -5,3 +5,12 @@
     %title Blog
 
   %body
+    %h1 New Post
+
+    %form{:action => "/movement/post", :method => "post"}
+      %label{:for => "title"} Title:
+      %input#username{:type => "text", :name => "title"}
+      %label{:for => "body"} Text:
+      %textarea#body{:name => "body"}
+      %input{:type => "submit", :name => "status", :value => "Submit"} or 
+      %input{:type => "submit", :name => "status", :value => "Save"}

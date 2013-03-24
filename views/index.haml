@@ -1,18 +1,14 @@
-!!!
+= haml :header
 
-%html
-  %head
-    %title Blog
+%h1 Blog Title
 
-  %body
-    %h1 Blog Title
-  
-    %div{:class => "navigation"}
-      %a{:title => "Home", :href => url('/')} Home
-      %a{:title => "About", :href => url('/about')} About
-      %a{:title => "Contact", :href => url('/contact')} Contact
+%div.navigation
+  %a{:title => "Home", :href => url('/')} Home
+  %a{:title => "About", :href => url('/about')} About
+  %a{:title => "Contact", :href => url('/contact')} Contact
 
-    - @posts.each do |post|
-      %div{:id => "post#{post.id}", :class => "post"}
-        %h2= post.title
-        %div{:id => "text#{post.id}", :class => "posttext"}
+- @posts.each do |post|
+  %div{:id => "post#{post.id}", :class => "post"}
+    %h2= post.title
+    %div{:id => "text#{post.id}", :class => "posttext"} #{post.body}
+    %div{:id => "date#{post.id}", :class => "postdate"} #{post.date}
