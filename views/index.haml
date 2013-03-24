@@ -8,9 +8,9 @@
     %h1 Blog Title
   
     %div{:class => "navigation"}
-      %a{:title => "Home", :href => "/"} Home
-      %a{:title => "About", :href => "/about"} About
-      %a{:title => "Contact", :href => "/contact"} Contact
+      %a{:title => "Home", :href => url('/')} Home
+      %a{:title => "About", :href => url('/about')} About
+      %a{:title => "Contact", :href => url('/contact')} Contact
 
     - @posts.each do |post|
       %div{:id => "post#{post.id}", :class => "post"}

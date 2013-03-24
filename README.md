@@ -1,2 +1,4 @@
 blogform
 ========
+
+A simple blog.
