@@ -1,0 +1,13 @@
+= haml :adminheader, :locals => {:text => "login"}
+
+#login.row
+  .small-6.small-centered.columns
+    %form{:action => "/movement/login", :method => "post"}
+      #inputs.row
+        .small-5.columns.left-c
+          %input#username{:type => "text", :placeholder => "username", :name => "title"}
+        #slash.small-2.columns /
+        .small-5.columns.right-c
+          %input#password{:type => "password", :placeholder => "password", :name => "body"}
+      #submit
+        %input{:type => "submit", :value => "Login"}

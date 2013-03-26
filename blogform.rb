@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'data_mapper'
 require 'dm-migrations'
+require 'compass'
 require 'sinatra'
 require 'haml'
 
@@ -55,11 +56,11 @@ get '/movement' do
   if request.cookies[settings.username] == settings.token
     redirect '/movement/'
   else 
-    haml :admin
+    haml :login
   end
 end
 
-post '/movement' do
+post '/movement/login' do
   if params['username'] == settings.username && 
         params['password'] == settings.password
     response.set_cookie(settings.username, settings.token)
@@ -67,6 +68,11 @@ post '/movement' do
   else
     "Username or Password Incorrect"
   end
+end
+
+get '/movement/logout' do
+  response.set_cookie(settings.username, false)
+  redirect '/movement'
 end
 
 get '/:id' do
