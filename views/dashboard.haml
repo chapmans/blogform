@@ -1,0 +1,30 @@
+= haml :adminheader, :locals => {:text => "dash"}
+
+#dash.row
+  .small-2.columns
+    %div#side.shead Side
+    %input.insert{:type => "text", :placeholder => "link a url here...", :name => "sideurl"}
+  .small-3.columns
+    %div#notes.shead Notes
+    %form#noteform
+      %input#inote.insert{:type => "text", :placeholder => "insert a note here...", :name => "innote"}
+    #notelist
+      - @notes.each do |post|
+        %div{:id => "post#{post.id}", :class => "note"}
+          %div{:id => "text#{post.id}", :class => "notetext"} #{post.body}
+  .small-4.columns
+    %div#drafts.shead Drafts
+    - @drafts.each do |post|
+      %a{:href => url("movement/edit/#{post.id}"), 
+         :id => "post#{post.id}", :class => "post"}
+        %div{:id => "text#{post.id}", :class => "posttext"} #{post.title}
+        %div{:id => "date#{post.id}", :class => "postdate"} #{post.date.strftime("%-m/%-d")}
+  .small-3.columns#pb
+    %div#published.shead Published
+    - @published.each do |post|
+      %a{:href => url("movement/edit/#{post.id}"), 
+         :id => "post#{post.id}", :class => "post"}
+        %div{:id => "text#{post.id}", :class => "posttext"} #{post.title}
+        %div{:id => "date#{post.id}", :class => "postdate"} #{post.date.strftime("%-m/%-d")}
+        
+%script{:type => 'text/javascript', :src => url('js/dash.js')}

@@ -1,3 +1,5 @@
 = haml :header
 
-#header blogform<span class="light">/movement</span><span class="lighter">.#{text}</span>
+#header 
+  <a href=#{url('/')} class="dark">blogform</a><a href=#{url('/movement')} class="light">/movement</a><a href=#{url("/movement/#{text}")} class="lighter">.#{text}</a>
+  = haml :navigation

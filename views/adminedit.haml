@@ -1,0 +1,20 @@
+= haml :adminheader, :locals => {:text => "edit"}
+
+#post.row
+  %form{:action => "/movement/edit/#{@post[:id]}", :method => "post"}
+    .small-7.small-offset-2.columns#postform    
+      %input#title{:type => "text", :placeholder => "Post Title", :value => "#{@post[:title]}", :name => "title"}
+      %textarea#text{:placeholder => "Post Text", :name => "body"} #{@post[:body]}
+    .small-3.columns
+      #status 
+        = @post[:status] == 2 ? "Published." : "Draft."
+      %input.s{:type => "submit", :name => "status", :value => "Save."}
+      %input.s{:type => "submit", :name => "status", :value => "Publish."}
+      #date
+        Date: #{@post[:date].strftime("%-m/%-d/%y %k:%M")}
+      #wordcount
+        Word count: 
+      #tags
+        Tags:
+      #revisions
+        Revisions:

@@ -3,8 +3,16 @@
 @import "foundation/foundation-global"; // *always required
 @import "foundation/components/global"; // *always required
 @import "foundation/components/grid";
+@import "foundation/components/visibility";
+@import "foundation/components/type";
 @import "foundation/components/buttons";
 @import "foundation/components/forms";
+@import "foundation/components/labels";
+@import "foundation/components/inline-lists";
+@import "foundation/components/panels";
+@import "foundation/components/tables";
+@import "foundation/components/thumbs";
+
 
 $bg: #f6fbfc;
 $mid-bg: #eaf0f1;
@@ -15,6 +23,7 @@ body {
 }
 
 #login {
+ margin-top: 200px;
   font: {
     family: 'Montserrat', sans-serif;
     weight: bold;
@@ -56,12 +65,143 @@ body {
   height: 50px;
   padding: {
     left: 12px;
-    top: 10px;
+    top: 2px;
   }
-  margin-bottom: 200px;
+  
   background: $top-bg;
   color:#535353;
 }
 
-.light {color:#7a7a7a;}
-.lighter {color:#a2a2a2;}
+a.dark {color:#454545;}
+a.light {color:#7a7a7a;}
+a.lighter {color:#a2a2a2;}
+
+#post {
+  margin-top:80px;
+  input, textarea {
+    border:none;
+    background:none;
+    box-shadow:none;
+    margin:0;
+  }
+  input#title {
+    font: {
+      family: Source Sans Pro, sans-serif;
+      size: 24px;
+      weight:800;
+    }
+    height: 36px;
+    border-bottom:3px solid #ddd;
+    padding: {
+      left: 4px;
+      right: 5px;
+      bottom: 0;
+      top: 0; 
+    }
+  }
+  input.s {
+    font: {
+      family: Montserrat, sans-serif;
+      size:16px;
+      weight:bold;
+    }
+    text-transform: lowercase;
+    display: block;
+    color: #555555;
+    &:hover {color: #000000;}
+  }
+  textarea#text {
+    font: {
+      family: Roboto, sans-serif;
+      size:12px;
+      weight:500;
+    }
+    min-height:300px;
+    height:auto;
+    padding: {
+      left: 5px;
+      right: 5px;
+    }
+  }
+}
+
+#nav {
+  position:relative;
+  top:-7px;
+  display:inline-block;
+  margin-left:20px;
+  li {
+    display:inline;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    a {
+      font: {
+        family: Montserrat, sans-serif;
+        size: 14px;
+        weight: normal;
+      }
+      text-transform: lowercase;
+      color:#777777;
+      &:hover {color: #555555;}
+    }
+    line-height:100%;
+  }
+  li.ex {
+    margin-left:14px;
+  }
+}
+
+#dash {
+  margin-top:80px;
+  font: {
+      family: Source Sans Pro, sans-serif;
+      weight:600;
+  }
+  .shead {
+    font: {
+      family: Montserrat, sans-serif;
+      weight:400;
+      size: 30px;
+    }
+    text-transform:lowercase;
+    border-bottom:5px #555 solid;
+  }
+  input.insert {
+    border: {
+      top:0;
+      left:0;
+      right:0;
+      bottom:2px #ddd solid;
+    }
+    background:none;
+    box-shadow:none;
+    margin:0;
+  }
+  a.post {
+    font: {
+      family: Source Sans Pro, sans-serif;
+      size:18px;
+      weight:600;
+    }
+    .posttext {
+      margin-top:8px;
+    }
+    .postdate {
+      font-size: 10px;
+    }
+  }
+  .note {
+    margin-top:10px;
+  }
+  .notetext {
+    font: {
+      size:12px;
+      weight:500;
+    }
+  }
+  #pb {
+    opacity: 0.5;
+    padding-right:0;
+  }
+}

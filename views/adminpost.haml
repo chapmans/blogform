@@ -1,16 +1,11 @@
-!!!
+= haml :adminheader, :locals => {:text => "new"}
 
-%html
-  %head
-    %title Blog
-
-  %body
-    %h1 New Post
-
-    %form{:action => "/movement/post", :method => "post"}
-      %label{:for => "title"} Title:
-      %input#username{:type => "text", :name => "title"}
-      %label{:for => "body"} Text:
-      %textarea#body{:name => "body"}
-      %input{:type => "submit", :name => "status", :value => "Submit"} or 
-      %input{:type => "submit", :name => "status", :value => "Save"}
+#post.row
+  %form{:action => "/movement/new", :method => "post"}
+    .small-7.small-offset-2.columns#postform    
+      %input#title{:type => "text", :placeholder => "Post Title", :name => "title"}
+      %textarea#text{:placeholder => "Post Text", :name => "body"}
+    .small-3.columns
+      %input.s{:type => "submit", :name => "status", :value => "Save."}
+      %input.s{:type => "submit", :name => "status", :value => "Publish."}
+      

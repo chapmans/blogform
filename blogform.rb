@@ -23,16 +23,26 @@ class Post
   property :title, String
   property :body, Text
   property :date, DateTime
+  property :created_at, DateTime
   property :status, Integer
+  property :private, Boolean, :default => false
+  
+  has n, :tags, :through => Resource
 end
 
 class Link
   include DataMapper::Resource
   property :id, Serial
   property :title, String
-  property :url, String,    :length => 255
+  property :url, String,      :length => 255
   property :desc, Text
   property :created_at, DateTime
+end
+
+class Tag
+  include DataMapper::Resource
+  property :id, Serial
+  property :tag, String
 end
 
 DataMapper.finalize
@@ -47,24 +57,31 @@ set :token, 'f4rB3Nl0v#)hLO^3tEX75+@r'
 
 # Routes!
 
+# Home
+
 get '/' do
-  @posts = Post.all(:status => 1, :order => [ :id.desc ], :limit => 20)
+  @posts = Post.all(:status => 1, :order => [ :id.desc ], :limit => 5)
   haml :index
 end
 
-get '/movement' do
+get '/post/:id' do
+  haml :post, :locals => {:id => params[:id]}
+end
+
+# Login
+get '/movement/login' do
   if request.cookies[settings.username] == settings.token
-    redirect '/movement/'
+    redirect '/movement/dash'
   else 
     haml :login
   end
 end
 
 post '/movement/login' do
-  if params['username'] == settings.username && 
-        params['password'] == settings.password
+  if params[:username] == settings.username && 
+        params[:password] == settings.password
     response.set_cookie(settings.username, settings.token)
-    redirect '/movement/post'
+    redirect '/movement/dash'
   else
     "Username or Password Incorrect"
   end
@@ -72,49 +89,88 @@ end
 
 get '/movement/logout' do
   response.set_cookie(settings.username, false)
-  redirect '/movement'
-end
-
-get '/:id' do
-  haml :post
+  redirect '/movement/login'
 end
 
 get '/movement/*' do
   # authenticate
   pass unless request.cookies[settings.username] != settings.token
-  redirect '/movement'
+  redirect '/movement/login'
 end
 
-get '/movement/post' do
+# Admin Panel
+
+# Dashboard
+
+get '/movement/dash' do
+  @sides = Link.all(:order => [ :created_at.desc ], :limit => 10)
+  @notes = Post.all(:status => 0, :order => [ :date.desc ], :limit => 10)
+  @drafts = Post.all(:status => 1, :order => [ :date.desc ], :limit => 10)
+  @published = Post.all(:status => 2, :order => [ :date.desc ], :limit => 10)
+  haml :dashboard
+end
+
+post '/movement/dash/note' do
+  @post = Post.create(:title => "", :body => params[:note],
+              :date => Time.now, :created_at => Time.now,
+              :status => 0, :private => false)
+  haml "#{@post[:id]}"
+end
+
+# New Post
+
+get '/movement/new' do
   haml :adminpost
 end
 
-post '/movement/post' do
-  status = if params['status'] == "Submit" then 1
-           elsif params['status'] == "Save" then 2
+post '/movement/new' do
+  status = if params[:status] == "Publish." then 2
+           elsif params[:status] == "Save." then 1
            else 0 end
-  post = Post.create(:title => params['title'], :body => params['body'], 
-                     :date => Time.now, :status => status)
-  
-  redirect '/movement/post/:post-id'
+  post = Post.create(:title => params[:title], :body => params[:body], 
+                     :date => Time.now, :created_at => Time.now, 
+                     :status => status, :private => false)
+  redirect "/movement/edit/#{post.id}"
   # haml :adminpost
 end
 
-get '/movement/post/:id' do
-  post = Post.get(:id)
-  haml :adminpost
+# Update Post
+
+get '/movement/edit/:id' do
+  @post = Post.get(params[:id])
+  haml :adminedit
 end
 
-put '/movement/post/:id' do
-  post = Post.get(:id)
-  post.update(:title => params['title'], :body => params['body'], 
-                     :date => Time.now, :status => params['status'])
-  haml :adminpost
+post '/movement/edit/:id' do
+  status = if params[:status] == "Publish." then 2
+           elsif params[:status] == "Save." then 1
+           else 0 end
+  @post = Post.get(params[:id])
+  @post.update(:title => params[:title], :body => params[:body], 
+                     :date => Time.now, :status => status)
+  haml :adminedit
 end
 
-delete '/movement/post/:id' do
-  post = Post.get(:id)
+delete '/movement/edit/:id' do
+  post = Post.get(params[:id])
   post.destroy
+  redirect '/movement/posts'
+end
+
+# Posts
+
+get '/movement/posts' do
   haml :adminpost
 end
 
+# Sidebar Editing
+
+get '/movement/sidebar' do
+  haml :adminpost
+end
+
+# Options
+
+get '/movement/options' do
+  haml :adminpost
+end
