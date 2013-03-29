@@ -1,5 +1,6 @@
-= haml :header
+= haml :header, :locals => {:admin => true}
 
 #header 
-  <a href=#{url('/')} class="dark">blogform</a><a href=#{url('/movement')} class="light">/movement</a><a href=#{url("/movement/#{text}")} class="lighter">.#{text}</a>
-  = haml :navigation
+  #real
+    <a href=#{url('/')} class="dark">blogform</a><a href=#{url('/movement')} class="light">/movement</a><a href=#{url("/movement/#{text}")} class="lighter">.#{text}</a>
+    = haml :navigation

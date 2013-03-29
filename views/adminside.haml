@@ -1,0 +1,15 @@
+= haml :adminheader, :locals => {:text => "new"}
+
+#sidebar.row
+  .small-5.small-offset-2.columns#postform    
+    %form#sf{:method => "post"}
+      %input.t#title{:type => "text", :placeholder => "Post Title", :name => "title"}
+      %input.t#url{:type => "text", :placeholder => "URL", :name => "url"}
+      %textarea#text{:placeholder => "Description", :name => "desc"}
+      %input.t#submit{:type => "submit", :name => "Add"}
+  .small-5.columns
+    - @links.each do |link|
+      %div{:id => "post#{link.id}", :class => "note"}
+        %div{:id => "text#{link.id}", :class => "notetext"} #{link.title}
+        
+%script{:type => 'text/javascript', :src => url('js/sidebar.js')}

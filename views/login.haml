@@ -5,9 +5,9 @@
     %form{:action => "/movement/login", :method => "post"}
       #inputs.row
         .small-5.columns.left-c
-          %input#username{:type => "text", :placeholder => "username", :name => "username"}
+          %input.login-text#username{:type => "text", :placeholder => "username", :name => "username"}
         #slash.small-2.columns /
         .small-5.columns.right-c
-          %input#password{:type => "password", :placeholder => "password", :name => "password"}
+          %input.login-text#password{:type => "password", :placeholder => "password", :name => "password"}
       #submit
         %input{:type => "submit", :value => "Login"}

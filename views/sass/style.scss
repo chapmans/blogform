@@ -12,18 +12,33 @@
 @import "foundation/components/panels";
 @import "foundation/components/tables";
 @import "foundation/components/thumbs";
-
+@import "foundation/components/switch";
 
 $bg: #f6fbfc;
 $mid-bg: #eaf0f1;
 $top-bg: #c4f5e8;
 
+@mixin blank-in {
+  input {
+    border:none;
+    background:none;
+    box-shadow:none;
+    margin:0;
+  }
+}
+
 body {
-  background: #f6fbfc;
+  background: $bg;
+  font: {
+    family: Source Sans Pro, Helvetica, sans-serif;
+    size: 1em;
+  }
 }
 
 #login {
- margin-top: 200px;
+  @include blank-in;
+  
+  margin-top: 200px;
   font: {
     family: 'Montserrat', sans-serif;
     weight: bold;
@@ -41,18 +56,12 @@ body {
     div {
       padding:0;
     }
-    .left-c {
-      padding-left:0.5em;
+    #username {
+      padding-left:1em;
     }
-    .right-c {
-      padding-right:0.5em;
+    #password {
+      padding-right:1em;
     }
-  }
-  input {
-    border:none;
-    background:none;
-    box-shadow:none;
-    margin:0;
   }
 }
 
@@ -63,13 +72,22 @@ body {
     size: 30px;
   }
   height: 50px;
-  padding: {
-    left: 12px;
-    top: 2px;
-  }
+  
   
   background: $top-bg;
   color:#535353;
+  
+  #real {
+    position: fixed;
+    width:100%;
+    padding: {
+      left: 12px;
+      top: 2px;
+    }
+    height:50px;
+    background: $top-bg;
+    z-index:5;
+  }
 }
 
 a.dark {color:#454545;}
@@ -106,9 +124,17 @@ a.lighter {color:#a2a2a2;}
       weight:bold;
     }
     text-transform: lowercase;
-    display: block;
     color: #555555;
     &:hover {color: #000000;}
+    display:inline-block;
+    background: $mid-bg;
+    margin: {
+      bottom: 10px;
+      right: 5px;
+    }
+  }
+  #textc {
+    margin-bottom:100px;
   }
   textarea#text {
     font: {
@@ -116,12 +142,61 @@ a.lighter {color:#a2a2a2;}
       size:12px;
       weight:500;
     }
-    min-height:300px;
     height:auto;
+    min-height:300px;
+    resize:none;
     padding: {
       left: 5px;
       right: 5px;
+      top:0;
+      bottom:0;
     }
+    overflow:hidden;
+  }
+  .pt {
+    font: {
+      family: Montserrat, sans-serif;
+      size:16px;
+    }
+    text-transform: lowercase;
+    padding-bottom:8px;
+  }
+  #status {
+    font: {
+      size:20px;
+      weight:bold;
+    }
+    padding-top:8px;
+    padding-bottom:2px;
+  }
+  #real {
+    position:fixed;
+  }
+  .switch {
+    border:none;
+    background:none;
+    width:105px;
+    margin-bottom:10px;
+  }
+  .switch label {
+    font: {
+      family: Montserrat, sans-serif;
+      size:16px;
+    }
+    padding:0;
+    text-transform:lowercase;
+  }
+  div.switch input:last-of-type:checked + label {
+    right: 10%;
+  }
+  .switch > span {
+    background:none;
+    border:none;
+    /*-webkit-box-shadow:80px 0 0 50px #dddddd, -80px 0 0 50px #dddddd;
+    box-shadow:80px 0 0 50px #dddddd, -80px 0 0 50px #dddddd;*/
+  }
+  .t {
+    background:#555555;
   }
 }
 
@@ -199,9 +274,62 @@ a.lighter {color:#a2a2a2;}
       size:12px;
       weight:500;
     }
+    word-wrap: break-word;
   }
   #pb {
     opacity: 0.5;
     padding-right:0;
+  }
+}
+
+#sidebar {
+  margin-top:80px;
+  input, textarea {
+    border:none;
+    background:none;
+    box-shadow:none;
+    margin:0;
+  }
+  input.t {
+    font: {
+      family: Source Sans Pro, sans-serif;
+      size: 24px;
+      weight:800;
+    }
+    height: 36px;
+    border-bottom:3px solid #ddd;
+    padding: {
+      left: 4px;
+      right: 5px;
+      bottom: 0;
+      top: 0; 
+    }
+  }
+  input#url {
+    font-size:18px;
+  }
+  input.s {
+    font: {
+      family: Montserrat, sans-serif;
+      size:16px;
+      weight:bold;
+    }
+    text-transform: lowercase;
+    display: block;
+    color: #555555;
+    &:hover {color: #000000;}
+  }
+  textarea#text {
+    font: {
+      family: Roboto, sans-serif;
+      size:12px;
+      weight:500;
+    }
+    min-height:300px;
+    height:auto;
+    padding: {
+      left: 5px;
+      right: 5px;
+    }
   }
 }

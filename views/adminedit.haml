@@ -4,17 +4,33 @@
   %form{:action => "/movement/edit/#{@post[:id]}", :method => "post"}
     .small-7.small-offset-2.columns#postform    
       %input#title{:type => "text", :placeholder => "Post Title", :value => "#{@post[:title]}", :name => "title"}
-      %textarea#text{:placeholder => "Post Text", :name => "body"} #{@post[:body]}
+      #textc
+        %textarea#text{:placeholder => "Post Text", :name => "body"} #{@post[:body]}
     .small-3.columns
-      #status 
-        = @post[:status] == 2 ? "Published." : "Draft."
-      %input.s{:type => "submit", :name => "status", :value => "Save."}
-      %input.s{:type => "submit", :name => "status", :value => "Publish."}
-      #date
-        Date: #{@post[:date].strftime("%-m/%-d/%y %k:%M")}
-      #wordcount
-        Word count: 
-      #tags
-        Tags:
-      #revisions
-        Revisions:
+      #real
+        #status.pt
+          = @post[:status] == 2 ? "Published." : "Draft."
+        - if (@post[:status] == 1)
+          %input.s{:type => "submit", :name => "status", :value => "Save"}
+          %input.s{:type => "submit", :name => "status", :value => "Publish"}
+        - if (@post[:status] == 2)
+          %input.s{:type => "submit", :name => "status", :value => "Update"}
+          #priv.switch
+            %input.t#x{:type => "radio", :name => "private", :value => "false", :checked => (@post[:private] == false)}
+            %label{:for => "x", :onclick => ""} Public.
+            %input.t#x1{:type => "radio", :name => "private", :value => "true", :checked => (@post[:private] == true)}
+            %label{:for => "x1", :onclick => ""} Private.
+          #date.pt
+            %strong Date: 
+            #{@post[:date].strftime("%-m/%-d/%y %k:%M")}
+        #wordcount.pt
+          %strong Word count: 
+          %span#wcount
+        #tags.pt
+          %strong Tags:
+          %form
+            %input.tag{:type => "text", :name => "itag", :placeholder => "insert a tag..."}
+        #revisions.pt
+          %strong Revisions:
+        
+%script{:type => 'text/javascript', :src => url('js/adminpost.js')}
