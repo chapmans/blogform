@@ -55,4 +55,8 @@ $(document).ready(function(){
       });
     }
   });
+  
+  $('.ti').click(function(){
+    //remove tag
+  });
 });

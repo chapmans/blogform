@@ -4,6 +4,7 @@ require 'dm-migrations'
 require 'compass'
 require 'sinatra'
 require 'haml'
+require 'json'
 
 # Database stuff
 
@@ -158,9 +159,16 @@ post '/movement/edit/:id' do
   @post.update(:title => params[:title], :body => params[:body], 
                      :date => Time.now, :status => status,
                      :private => params[:private])
-  #params[:tags].each do |tag|
-  #  @post.tags << tag
-  #end
+  tagArray = JSON.parse(params[:tags])
+  tagArray.each do |tagX|
+    tagC = Tag.first_or_create(:tag => tagX['tag'].to_s)
+    if tagX['action'] == 1
+      @post.tags << tagC
+    elsif tagX['action'] == -1
+      tagT = @post.post_tags.first(:tag => tagC)
+      tagT.destroy
+    end
+  end
   @post.save
   haml :adminedit
 end

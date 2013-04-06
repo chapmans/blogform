@@ -29,4 +29,38 @@ $(document).ready(function(){
   $('.switch').click(function(){
     console.log($('#x').prop('checked'));
   });
+  
+  var tagArray = [];
+  
+  function Tag(action, tag) {
+    this.action = action;
+    this.tag = tag;
+  }
+  
+  $('#addtag').keypress(function(event){
+    if (event.which === 13) {
+      var mval = $("#addtag").val().trim();
+      if (mval.length === 0) {
+        return false;
+      }
+      $("#taglist").append("<div class=\"tag\"><a class=\"ti\" href=\"#\">&times;</a> #<span class=\"tim\">" + mval + "</span></div>");
+      $('#addtag').val("");
+      tagArray.push(new Tag(1, mval));
+      
+      $('#tagarray').val(JSON.stringify(tagArray));
+      console.log($('#tagarray').val());
+      return false;
+    }
+  });
+  
+  $('#taglist').on('click', '.ti', function(event){
+    var x = $(this).parent().children('.tim');
+    var mval = x.text();
+    tagArray.push(new Tag(-1, mval));
+    
+    $('#tagarray').val(JSON.stringify(tagArray));
+    console.log($('#tagarray').val());
+    $(this).parent().remove();
+    return false;
+  });
 });

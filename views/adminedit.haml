@@ -28,8 +28,13 @@
           %span#wcount
         #tags.pt
           %strong Tags:
-          %form
-            %input.tag{:type => "text", :name => "itag", :placeholder => "insert a tag..."}
+          #taglist
+            - @post.tags.each do |tag|
+              %div.tag
+                %a.ti &times;
+                &#35;<span class="tim">#{tag.tag}</span>
+          %input#addtag{:type => "text", :name => "itag", :placeholder => "insert a tag..."}
+          %input#tagarray{:type => "hidden", :name => "tags", :value => "[]"}
         #revisions.pt
           %strong Revisions:
         
