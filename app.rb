@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'data_mapper'
 require 'dm-migrations'
+require 'dm-serializer'
 require 'compass'
 require 'sinatra'
 require 'haml'
@@ -10,13 +11,13 @@ require 'json'
 
 DataMapper::setup(:default, 'postgres://username:pass@localhost/blogform')
 
-class User
-  include DataMapper::Resource
-  property :id, Serial
-  property :username, String
-  property :password, String
-  property :email, String
-end
+#class User
+#  include DataMapper::Resource
+#  property :id, Serial
+#  property :username, String
+#  property :password, String
+#  property :email, String
+#end
 
 class Post
   include DataMapper::Resource
@@ -103,6 +104,44 @@ end
 
 # Admin Panel
 
+# api
+
+get '/movement/api/posts' do
+  content_type :json
+  posts = Post.all(:order => [ :date.desc ])
+  posts.to_json
+end
+
+post '/movement/api/posts' do
+  content_type :json
+  post = Post.create(:title => params[:title], :body => params[:post],
+              :date => Time.now, :created_at => Time.now,
+              :status => params[:status], :private => false)
+  post.to_json
+end
+
+get '/movement/api/posts/:id' do
+  content_type :json
+  post = Post.get(params[:id])
+  post.to_json
+end
+
+put '/movement/api/posts/:id' do
+  content_type :json
+  blargh = JSON.parse(request.body.read);
+  post = Post.get(params[:id])
+  post.update(:title => blargh['title'], :body => blargh['body'], 
+                     :date => Time.now, :status => blargh['status'],
+                     :private => blargh['privacy'])
+  post.to_json
+end
+
+delete '/movement/api/posts/:id' do
+  content_type :json
+  post = Post.get(params[:id])
+  post.destroy
+end
+
 # Dashboard
 
 get '/movement/dash' do
@@ -133,8 +172,8 @@ get '/movement/new' do
 end
 
 post '/movement/new' do
-  status = if params[:status] == "Publish." then 2
-           elsif params[:status] == "Save." then 1
+  status = if params[:status] == "Publish" then 2
+           elsif params[:status] == "Save" then 1
            else 0 end
   post = Post.create(:title => params[:title], :body => params[:body], 
                      :date => Time.now, :created_at => Time.now, 

@@ -8,23 +8,22 @@
     %div#notes.shead Notes
     %form#noteform
       %input#inote.insert{:type => "text", :placeholder => "insert a note here...", :name => "innote"}
-    #notelist
-      - @notes.each do |post|
-        %div{:id => "post#{post.id}", :class => "note"}
-          %div{:id => "text#{post.id}", :class => "notetext"} #{post.body}
+    %ul#notelist.gg
   .small-4.columns
     %div#drafts.shead Drafts
-    - @drafts.each do |post|
-      %a{:href => url("movement/edit/#{post.id}"), 
-         :id => "post#{post.id}", :class => "post"}
-        %div{:id => "text#{post.id}", :class => "posttext"} #{post.title}
-        %div{:id => "date#{post.id}", :class => "postdate"} #{post.date.strftime("%-m/%-d")}
+    %ul#draftposts.gg
   .small-3.columns#pb
     %div#published.shead Published
-    - @published.each do |post|
-      %a{:href => url("movement/edit/#{post.id}"), 
-         :id => "post#{post.id}", :class => "post"}
-        %div{:id => "text#{post.id}", :class => "posttext"} #{post.title}
-        %div{:id => "date#{post.id}", :class => "postdate"} #{post.date.strftime("%-m/%-d")}
+    %ul#publishedposts.gg
         
-%script{:type => 'text/javascript', :src => url('js/dash.js')}
+
+%script#post-template{:type => 'text/template'}
+  %a{:href => url("movement/edit/{{id}}"), 
+     :id => "post{{id}}", :class => "post"}
+    %div{:id => "text{{id}}", :class => "posttext"} {{title}}
+    %div{:id => "date{{id}}", :class => "postdate"} {{todate date}}
+%script#note-template{:type => 'text/template'}
+  %div{:id => "post{{id}}", :class => "note"}
+    %div{:id => "text{{id}}", :class => "notetext"} {{body}}
+    %input{:id => "editnote{{id}}", :class => "edit editnote", :value => "{{body}}"}
+%script{:type => 'text/javascript', :src => url('js/app.js')}

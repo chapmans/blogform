@@ -1,6 +1,6 @@
 // Foundation
 @import "settings";
-@import "foundation/foundation-global"; // *always required
+//@import "foundation/foundation-global"; // *always required
 @import "foundation/components/global"; // *always required
 @import "foundation/components/grid";
 @import "foundation/components/visibility";
@@ -33,6 +33,32 @@ body {
     family: Source Sans Pro, Helvetica, sans-serif;
     size: 1em;
   }
+}
+
+.note .edit {
+    display:none;
+}
+
+.note .notetext {
+    display:block;
+}
+
+.editing .edit {
+    display:block;
+}
+
+.editing .notetext {
+    display:none;
+}
+
+ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+
+ul.gg {
+  line-height:1;
 }
 
 #login {
